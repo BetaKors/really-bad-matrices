@@ -4,11 +4,10 @@ from os import system
 
 def clear():
     system('cls || clear')
+    print('=' * 10 + ' Very, very bad matrix operations, by BetaKors ' + '=' * 10)
 
 
 clear()
-
-print('=' * 10 + ' Very, very bad matrix operations, by BetaKors ' + '=' * 10)
 
 while True:
     i = input('> ')
@@ -20,18 +19,24 @@ while True:
     if i == 'exit':
         break
 
-    # converts a = {{1, 2}, {3, 4}} to (a := Matrix([[1, 2], [3, 4]]))
+    result = None
+
+    # converts a = {{1, 2}, {3, 4}} to a = Matrix([[1, 2], [3, 4]])
     operation = f'({i})' \
                 .replace('{', '[') \
                 .replace('}', ']') \
-                .replace('[[', 'Matrix([[') \
+                .replace('[[', f'Matrix([[') \
                 .replace(']]', ']])') \
                 .replace('=', ':=')
 
     try:
-        result = eval(operation, globals(), locals())  ## yes i know this is very very very very very unsafe
+        result = eval(operation)  ## yes i know this is very very very very very unsafe
     except Exception as exc:
-        result = exc.args[0]
+        match exc:
+            case NameError():
+                result = f'`{exc.name}` doesn\'t exist!'
+            case _:
+                result = exc.args[0]
 
     if result is not None:
-        print(result)
+        print(str(result).lower())
