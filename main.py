@@ -1,8 +1,12 @@
 from matrices import Matrix
 
 
-operation = input('Input your operation: ')
+def parse_operation(operation: str) -> str:
+    operation = f'({operation})'
+    return operation.replace('{', '[').replace('}', ']').replace('[[', 'Matrix([[').replace(']]', ']])').replace('=', ':=')
 
-operation = operation.replace('{', '[').replace('}', ']').replace('[[', 'Matrix([[').replace(']]', ']])')
 
-print(eval(operation, globals(), locals()))
+operation = ''
+
+while operation != 'exit':
+    print(eval(operation := parse_operation(input('> ')), globals(), locals()))
