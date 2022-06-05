@@ -21,14 +21,17 @@ while True:
         break
 
     # converts a = {{1, 2}, {3, 4}} to (a := Matrix([[1, 2], [3, 4]]))
-    operation = f'({operation})' \
+    operation = f'({i})' \
                 .replace('{', '[') \
                 .replace('}', ']') \
                 .replace('[[', 'Matrix([[') \
                 .replace(']]', ']])') \
                 .replace('=', ':=')
 
-    result = eval(operation, globals(), locals())  ## yes i know this is very very very very very unsafe
+    try:
+        result = eval(operation, globals(), locals())  ## yes i know this is very very very very very unsafe
+    except Exception as exc:
+        result = exc.args[0]
 
     if result is not None:
         print(result)
