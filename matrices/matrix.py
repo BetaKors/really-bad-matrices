@@ -36,8 +36,11 @@ class Matrix:
         return -self + other
 
     def __mul__(self, scalar: Number) -> 'Matrix':
+        if isinstance(scalar, self.__class__):
+            raise NotImplementedError('As of now, multiplication between two matrices isn\'t implemented.')
+
         if not isinstance(scalar, Number):
-            raise TypeError('As of now, you can only multiply a matrix by a number.')
+            raise TypeError('You can only multiply a matrix by a number or another matrix!')
 
         return self.__class__.from_generator(
             [value * scalar for value in row]
