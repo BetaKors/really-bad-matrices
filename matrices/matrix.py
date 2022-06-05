@@ -33,7 +33,7 @@ class Matrix:
 
     def __sub__(self, other: 'Matrix') -> 'Matrix':
         self._is_valid_for_operations(other)
-        return -self + other
+        return self + (-other)
 
     def __mul__(self, scalar: Number) -> 'Matrix':
         if isinstance(scalar, self.__class__):
