@@ -47,6 +47,9 @@ class Matrix:
             for row in self._matrix
         )
 
+    def __rmul__(self, scalar: Number) -> 'Matrix':
+        return self.__mul__(scalar)
+
     def __neg__(self) -> 'Matrix':
         return self * -1
 
@@ -63,8 +66,8 @@ class Matrix:
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({str(self._matrix)})'
 
-    def __str__(self, padding: int=2, padding_after_first_row: int=0) -> str:
-        max_length = max(len(str(n)) for n in self)
+    def __str__(self, padding: int=2, padding_after_first_row: int=0, precision: int=1) -> str:
+        max_length = max(len(f'{n:.{precision}f}') for n in self)
         general_padding = max_length + padding
 
         def get_padding(i, j):
@@ -74,7 +77,7 @@ class Matrix:
 
         return '\n'.join(
             ''.join(
-                f'{value:>{get_padding(row_index, column_index)}}'
+                f'{value:>{get_padding(row_index, column_index)}.{precision}f}'
                 for column_index, value in enumerate(row)
             )
             for row_index, row in enumerate(self._matrix)
