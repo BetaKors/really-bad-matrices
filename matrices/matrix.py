@@ -26,7 +26,7 @@ class Matrix:
 
     def __add__(self, other: 'Matrix') -> 'Matrix':
         self._is_valid_for_operations(other)
-        return Matrix.from_generator(
+        return self.__class__.from_generator(
             [svalue + ovalue for svalue, ovalue in zip(srow, orow)]
             for srow, orow in zip(self._matrix, other._matrix)
         )
@@ -39,7 +39,7 @@ class Matrix:
         if not isinstance(scalar, Number):
             raise TypeError('As of now, you can only multiply a matrix by a number.')
 
-        return Matrix.from_generator(
+        return self.__class__.from_generator(
             [value * scalar for value in row]
             for row in self._matrix
         )
@@ -58,7 +58,7 @@ class Matrix:
         return not self.__eq__(other)
 
     def __repr__(self) -> str:
-        return f'Matrix({str(self._matrix)})'
+        return f'{self.__class__.__name__}({str(self._matrix)})'
 
     def __str__(self, padding: int=2, padding_after_first_row: int=0) -> str:
         max_length = max(len(str(n)) for n in self)
@@ -91,7 +91,7 @@ class Matrix:
             for j, value in enumerate(row):
                 t[j][i] = value
 
-        return Matrix(t)
+        return self.__class__(t)
 
     @classmethod
     def from_rows(cls, *rows: MatrixLikeSequence) -> 'Matrix':
@@ -126,7 +126,7 @@ class Matrix:
         return self.m == self.n
 
     def get_column(self, column_index: int) -> 'Matrix': ## temp: returns matrix
-        return Matrix.from_generator(row[column_index] for row in self._matrix)
+        return self.__class__.from_generator(row[column_index] for row in self._matrix)
 
     def compare_dimensions(self, other: 'Matrix') -> bool:
         return self.dimensions == other.dimensions
