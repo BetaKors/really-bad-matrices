@@ -90,15 +90,6 @@ class Matrix:
             for value in row
         )
 
-    def transpose(self) -> 'Matrix':
-        t = [[0 for _ in range(self.m)] for _ in range(self.n)]
-
-        for i, row in enumerate(self._matrix):
-            for j, value in enumerate(row):
-                t[j][i] = value
-
-        return self.__class__(t)
-
     @classmethod
     def from_rows(cls, *rows: MatrixLikeSequence) -> 'Matrix':
         return cls(rows)
@@ -130,6 +121,16 @@ class Matrix:
     @property
     def is_square(self) -> bool:
         return self.m == self.n
+
+    @property
+    def transposed(self) -> 'Matrix':
+        t = [[0 for _ in range(self.m)] for _ in range(self.n)]
+
+        for i, row in enumerate(self._matrix):
+            for j, value in enumerate(row):
+                t[j][i] = value
+
+        return self.__class__(t)
 
     def get_column(self, column_index: int) -> 'Matrix': ## temp: returns matrix
         return self.__class__.from_generator(row[column_index] for row in self._matrix)
